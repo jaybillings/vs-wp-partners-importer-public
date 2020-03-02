@@ -1,0 +1,100 @@
+# Visit Seattle Partners Importer Documentation
+
+## Importer Actions
+
+| Action name | Function name | POST data | Worker methods | Phase name |
+| --- | --- | --- | --- |
+| import_new | `vspi_run_import_new` | `date`, `page` | `import_changed_by_chunk` | import/fetch, import/update |
+| import_single | `vspi_run_import_single` | `listing` | `import_single_partner` | import/update |
+| import_all | `vspi_run_import_all` | `page` | `import_all_by_chunk` | import/fetch, import/update |
+| delete_stale | `vspi_run_delete_stale` | `date`, `page` | `delete_stale_by_chunk` | delete/prune |
+| delete_all | `vspi_run_delete_all` | `page` | `delete_all_by_chunk` | delete/purge |
+| create_cache | `vspi_run_create_cache` | `page` | `clear_listing_cache` & `create_cache_by_chunk` | cache/create |
+| delete_cache | `vspi_run_delete_cache` | N/A | `clear_listing_cache` | cache/delete |
+| cancel | `vspi_run_cancel` | N/A | N/A | N/A |
+| resume | `vspi_run_manual_resume` | *Gets `last_run_data`* | `resume_process` | *Varies* |
+
+## Importer Status
+
+Stores data from server to be read by client. Individual fields are taken from the database, which is altered as
+necessary during the run.
+
+**AJAX endpoint:** `vspi_fetch_importer_status`
+
+### Return JSON
+
+| Name | Type | When set? | Set by | Description |
+| --- | --- | --- | --- |
+| status | string | Every action handler, `postflight`, `run_cancel` | `set_import_status` | Importer's overall status |
+| method | string | Every action handler, `remove_orphaned_data`, `remove_partner_metadata` | `set_import_method` | The process/method the importer is running |
+| timestamp | string | `preflight` & `postflight` | `set_import_time` | The time the last process completed |
+| processed | int | `preflight`, Every action handler | `set_processed_count` | The overall # of listings processed |
+| added | int | `preflight` , Every import/create handler | `set_add_count` | The # of listings added/updated |
+| deleted | int | `preflight``, Every delete/clear handler | `set_delete_count` | The # of listings deleted |
+| page | int | `preflight`, `run` methods, `create_listing_cache`, `cron_import_new` | 'set_current_page' | The page/chunk being processed |
+| total | int | `preflight``, Every action handler, `cron_import_new` | `set_total_count` | The total # of listings to process |
+
+#### `status` values
+
+* **running** - Process is in progress
+* **free** - Nothing in progress
+  * **free:canceled** - Nothing in progress b/c process was canceled by user
+* **busy** - Server is setting up process
+
+#### `method` values
+`<process>/<phase>`
+* import/
+  * **import/fetch** - Fetching data to import
+  * **import/update** - Updating partner posts with imported data
+* delete/
+  * **delete/fetch** - Fetch the list of invalid partner posts
+  * **delete/prune** - Removing stale/invalid partner posts
+  * **delete/purge** - Removing all partner posts
+  * **delete/meta** - Removing stale/invalid metadata
+  * **delete/cleanup** - Removing orphaned data
+* cache/
+  * **cache/create** - Creating fresh cache rows
+  * **cache/delete** - Deleting entire cache
+
+## Last Run Data
+
+Stores data from previous run to be read by server. Always set at beginning of run, before main method called.
+
+**Getter:** `get_last_run_data`
+
+**Setter:** `set_last_run_data`
+
+### Return JSON
+
+| Name | Type | Description | Set by |
+| --- | --- | --- | --- |
+| action | string | The importer action being run | All (in main method) |
+| fetch_date | string | The start date for the data fetch | delete_stale, import_new |
+| page | int | The page/chunk the importer is on | create_cache, delete_all, delete_stale, import_all, import_new |
+| added | int | The # of listings added/updated | All (automatic) |
+| deleted | int | The # of listings removed | All (automatic) |
+| processed | int | The # of listings processed | All (automatic) |
+| listing_id | int | The ID of the single listing to fetch | import_single |
+
+#### `action` values
+* Import
+  * import_new
+  * import_all
+  * import_single
+* Delete
+  * delete_stale
+  * delete_all
+* Cache
+  * create_cache
+  * delete_cache
+* Cancel
+  * cancel
+* Resume
+  * manual_resume
+
+## Cron Actions
+
+| Function name | Worker methods | Default interval |
+| --- | --- | --- |
+| `vspi_run_cron_import` | `cron_import_new` | Daily |
+| `vspi_run_cron_invalidate` |  `clear_listing_cache` | Weekly |

@@ -1,0 +1,77 @@
+/* Includes all rules for plugin admin styles */
+.vspi-admin-wrapper {
+  /* General purpose rules */ }
+  .vspi-admin-wrapper button {
+    width: 6.5rem;
+    margin-right: .5rem; }
+    .vspi-admin-wrapper button[disabled] {
+      cursor: not-allowed; }
+  .vspi-admin-wrapper h1 + p {
+    margin-bottom: 2rem; }
+  .vspi-admin-wrapper #vspi_importer-status {
+    font-weight: 700; }
+  .vspi-admin-wrapper #vspi_refresh {
+    width: auto;
+    border: none;
+    background: none;
+    color: #777777;
+    font-size: 14px;
+    text-shadow: 0 1px 0 #e3e3e3;
+    cursor: pointer; }
+  .vspi-admin-wrapper .js_action-cancel, .vspi-admin-wrapper .js_action-resume, .vspi-admin-wrapper .count-message, .vspi-admin-wrapper .js_final-count-msg, .vspi-admin-wrapper .error-message {
+    display: none; }
+  .vspi-admin-wrapper .panel {
+    background-color: white;
+    margin: 1rem 1rem 1rem 0;
+    border: 1px solid;
+    max-width: 800px; }
+  .vspi-admin-wrapper .error-message span, .vspi-admin-wrapper .loading-message span {
+    display: inline-block;
+    padding: .5rem; }
+  .vspi-admin-wrapper .loading-message {
+    border-color: #777777; }
+  .vspi-admin-wrapper .error-message {
+    border-color: #ff383f;
+    color: #ff383f;
+    font-weight: 600; }
+  .vspi-admin-wrapper .action-panel {
+    border-color: #777777; }
+    .vspi-admin-wrapper .action-panel h2 {
+      border-bottom: 1px solid #777777;
+      margin: 0;
+      padding: .5rem;
+      font-size: .8rem;
+      color: #333333;
+      background-color: #e3e3e3; }
+    .vspi-admin-wrapper .action-panel ul {
+      padding: .25rem .5rem; }
+  .vspi-admin-wrapper .messageWrapper li {
+    margin-bottom: 2px; }
+  .vspi-admin-wrapper .inner-message {
+    display: inline-block;
+    padding-right: .25rem; }
+    .vspi-admin-wrapper .inner-message span {
+      padding-left: .25rem;
+      font-weight: 600; }
+  .vspi-admin-wrapper .running {
+    color: #239F9B; }
+  .vspi-admin-wrapper .idle {
+    color: #777777; }
+  .vspi-admin-wrapper .danger {
+    color: #ff383f; }
+  .vspi-admin-wrapper .add {
+    color: #1a7572; }
+  .vspi-admin-wrapper .remove {
+    color: #ff050e; }
+  .vspi-admin-wrapper .spin {
+    animation-name: spin;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear; }
+@keyframes spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+
+/*# sourceMappingURL=vspi-admin-styles.css.map */

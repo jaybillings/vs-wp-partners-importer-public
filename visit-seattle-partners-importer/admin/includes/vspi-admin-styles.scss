@@ -1,0 +1,134 @@
+/* Includes all rules for plugin admin styles */
+.vspi-admin-wrapper {
+    // Variables
+    $teal:      #239F9B;
+    $pink:      #ff383f;
+    $lightGray: #e3e3e3;
+    $medGray:   #a9a9a9;
+    $darkGray:  #777777;
+    $black:     #333333;
+
+    button {
+        width: 6.5rem;
+        margin-right: .5rem;
+
+        &[disabled] {
+            cursor: not-allowed;
+        }
+    }
+
+    h1 + p {
+        margin-bottom: 2rem;
+    }
+
+    #vspi_importer-status {
+        font-weight: 700;
+    }
+
+    #vspi_refresh {
+        width: auto;
+        border: none;
+        background: none;
+        color: $darkGray;
+        font-size: 14px;
+        text-shadow: 0 1px 0 $lightGray;
+        cursor: pointer;
+    }
+
+    .js_action-cancel, .js_action-resume, .count-message, .js_final-count-msg, .error-message {
+      display: none;
+    }
+
+    .panel {
+        background-color: white;
+        margin: 1rem 1rem 1rem 0;
+        border: 1px solid;
+        max-width: 800px;
+    }
+
+    .error-message, .loading-message {
+        span {
+            display: inline-block;
+            padding: .5rem;
+        }
+    }
+
+    .loading-message {
+        border-color: $darkGray;
+    }
+
+    .error-message {
+        border-color: $pink;
+        color: $pink;
+        font-weight: 600;
+    }
+
+    .action-panel {
+        border-color: $darkGray;
+
+        h2 {
+            border-bottom: 1px solid $darkGray;
+            margin: 0;
+            padding: .5rem;
+            font-size: .8rem;
+            color: $black;
+            background-color: $lightGray;
+        }
+
+        ul {
+            padding: .25rem .5rem;
+        }
+    }
+
+    .messageWrapper li {
+        margin-bottom: 2px;
+     }
+
+    .inner-message {
+        display: inline-block;
+        padding-right: .25rem;
+
+        span {
+            padding-left: .25rem;
+            font-weight: 600;
+        }
+    }
+
+    /* General purpose rules */
+
+    .running {
+        color: $teal;
+    }
+
+    .idle {
+        color: $darkGray;
+    }
+
+    .danger {
+        color: $pink;
+    }
+
+    .add {
+        color: darken($teal, 10%);
+    }
+
+    .remove {
+        color: darken($pink, 10%);
+    }
+
+    .spin {
+        animation-name: spin;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
+    @keyframes spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+}
